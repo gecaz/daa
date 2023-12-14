@@ -1,0 +1,367 @@
+ASSIGNMENT 1
+Q. 1.Bubble Sort 
+
+function sortedArray=bubbleSort(arr)
+    n = length(arr);
+
+    for i = 1:n-1
+        for j = 1:n-i
+            if arr(j) > arr(j+1)
+                // Swap elements if they are in the wrong order
+                temp = arr(j);
+                arr(j) = arr(j+1);
+                arr(j+1) = temp;
+            end
+        end
+    end
+
+    sortedArray = arr;
+endfunction
+
+// Example usage
+numbers = [5, 3, 1, 8, 4, 7, 10, 2, 6, 9];
+sortedNumbers = bubbleSort(numbers);
+
+disp('Original Array:');
+disp(numbers);
+
+disp('Sorted Array (increasing order):');
+disp(sortedNumbers);
+
+
+Q2. Insertion Sort Increasing order
+
+function sortedArray=insertionSort(arr)
+    n = length(arr);
+
+    for i = 2:n
+        key = arr(i);
+        j = i - 1;
+
+        // Move elements of arr[1..i-1] that are greater than key to one position ahead of their current position
+        while j > 0 && arr(j) > key
+            arr(j + 1) = arr(j);
+            j = j - 1;
+        end
+
+        arr(j + 1) = key;
+    end
+
+    sortedArray = arr;
+endfunction
+
+// Example usage
+numbers = [5, 3, 1, 4, 2];
+sortedNumbers = insertionSort(numbers);
+
+disp('Original Array:');
+disp(numbers);
+
+disp('Sorted Array (increasing order):');
+disp(sortedNumbers);
+
+
+Q 3.Linear Search
+
+function index=linearSearch(arr, key)
+    n = length(arr);
+    index = -1; // Initialize index to -1, indicating the key is not found
+
+    for i = 1:n
+        if arr(i) == key
+            index = i;
+            break;
+        end
+    end
+endfunction
+
+// Accept 5 numbers from the user
+numbers = zeros(1, 5);
+disp('Enter 5 numbers:');
+for i = 1:5
+    numbers(i) = input('Enter a number: ');
+end
+
+// Accept the number to find
+key = input('Enter the number to find: ');
+
+// Perform linear search
+index = linearSearch(numbers, key);
+
+// Display the result
+if index == -1
+    disp('Number not found in the array.');
+else
+    disp(['Number found at index ', string(index)]);
+end
+
+
+Q.4. Binary Search
+
+// Function to perform binary search on a sorted array
+function index=binarySearch(arr, key)
+    n = length(arr);
+    index = -1;
+
+    low = 1;
+    high = n;
+
+    while low <= high
+        mid = floor((low + high) / 2);
+
+        if arr(mid) == key
+            index = mid;
+            break;
+        elseif arr(mid) < key
+            low = mid + 1;
+        else
+            high = mid - 1;
+        end
+    end
+endfunction
+
+// Accept 5 numbers from the user
+numbers = zeros(1, 5);
+disp('Enter 5 numbers:');
+for i = 1:5
+    numbers(i) = input('Enter a number: ');
+end
+
+// Accept the number to find
+key = input('Enter the number to find: ');
+
+// Sort the array using the gsort function
+sortedNumbers = gsort(numbers);
+
+// Perform binary search
+index = binarySearch(sortedNumbers, key);
+
+// Display the result
+if index == -1
+    disp('Number not found in the array.');
+else
+    disp(['Number found at index ', string(index)]);
+end
+
+ASSIGNMENT 2
+Q Merge sort icreasing
+
+// Merge Sort Implementation in Scilab
+function sortedArray=mergeSort(arr)
+    n = length(arr);
+    // Base case: If the array has 1 or 0 elements, it is already sorted
+    if n <= 1
+        sortedArray = arr;
+        return;
+    end
+    // Split the array into two halves
+    mid = floor(n / 2);
+    left = arr(1:mid);
+    right = arr(mid+1:$);  // Adjusted the syntax for extracting elements from mid+1 to the end
+    // Recursively sort the two halves
+    leftSorted = mergeSort(left);
+    rightSorted = mergeSort(right);
+    // Merge the sorted halves
+    sortedArray = merge(leftSorted, rightSorted);
+endfunction
+function mergedArray=merge(left, right)
+    mergedArray = [];
+    while length(left) > 0 && length(right) > 0
+        if left(1) <= right(1)
+            mergedArray = [mergedArray, left(1)];
+            left = left(2:$);
+        else
+            mergedArray = [mergedArray, right(1)];
+            right = right(2:$);
+        end
+    end
+    // If there are any remaining elements in the left or right array, append them
+    mergedArray = [mergedArray, left, right];
+endfunction
+// Example usage:
+numbers = [5, 3, 1, 4, 2];
+sortedNumbers = mergeSort(numbers);
+disp('Original Array:');
+disp(numbers);
+disp('Sorted Array (increasing order):');
+disp(sortedNumbers);
+
+
+ASSIGNMENT 3
+Q. work-job
+function assignment = greedyFcfsJobSequencing (costMatrix)
+     N = size (costMatrix, 1); 
+     assignment = zeros(N, 1);
+for i = 1:N
+// lowest cost job will gets assign to worker
+    [minVal, minIndex] =min (costMatrix(i, :));
+// Store the job assignment for the worker 
+    assignment (i) = minIndex;
+// inf ensures jobs will not get reallocated 
+    costMatrix( :, minIndex)= %inf;
+end
+endfunction
+// Get user input for the number of workers 
+N= input("Enter the number of workers: ");
+// Initialize costMatrix 
+costMatrix = zeros(N, N);
+// Get user input for the cost matrix 
+disp("Enter the cost matrix values:");
+for i = 1:N
+for j = 1:N
+costMatrix (i, j) = input("Enter the cost for Worker" + string(i) + "for Job" + string(j) + ": ");
+    end
+end
+disp("Cost Matrix:");
+ disp(costMatrix);
+assignment =greedyFcfsJobSequencing (costMatrix);
+disp("Assignment (Worker -> Job) using Greedy FCFS:");
+for i=1:length(assignment)
+    disp("Worker"+ string(i)+"-> Job" + string(assignment(i)));
+end
+
+
+
+
+ASSIGNMENT 4
+Q.1. Maze
+function move(m, n, x, y, maze)
+    maze(x, y) = 2;
+    disp(maze);
+    if x == goal(1) & y == goal(2) then
+        return;
+    end
+    if x < m & maze(x + 1, y) == 1 then
+ move(m, n, x + 1, y, maze);
+    end    
+    if y < n & maze(x, y + 1) == 1 then
+        move(m, n, x, y + 1, maze);
+    end     
+    if y > 1 & maze(x, y - 1) == 1 then
+        move(m, n, x, y - 1, maze);
+    end    
+    if x > 1 & maze(x - 1, y) == 1 then
+        move(m, n, x - 1, y, maze);
+    end
+endfunction
+function backtrack(x, y, maze)
+    maze(x, y) = 1;
+    disp(maze);   
+    if x == start(1) & y == start(2) then
+        return;
+    end   
+    if x < m & maze(x + 1, y) == 0 then
+        backtrack(x + 1, y, maze);
+    end    
+    if y < n & maze(x, y + 1) == 0 then
+        backtrack(x, y + 1, maze);
+    end  
+    if y > 1 & maze(x, y - 1) == 0 then
+        backtrack(x, y - 1, maze);
+    end    
+    if x > 1 & maze(x - 1, y) == 0 then
+        backtrack(x - 1, y, maze);
+    end
+endfunction
+maze = [1, 0, 0, 0; 
+        1, 1, 1, 1; 
+        0, 1, 0, 1; 
+        1, 0, 1, 1];
+start = [1, 1];
+goal = [4, 4];
+n = size(maze, 1);
+m = size(maze, 2);
+disp(maze);
+move(m, n, start(1), start(2), maze);
+backtrack(goal(1), goal(2), maze);
+
+Q.2. Schedule of university
+function chromatic_number = graph_coloring(adjacency_matrix)
+    num_vertices = size(adjacency_matrix, 1);
+    coloring = zeros(1, num_vertices);
+    num_colors = 0;
+    for vertex = 1:num_vertices
+        available_colors = zeros(1, num_vertices);
+        for neighbor = 1:num_vertices
+            if adjacency_matrix(vertex, neighbor) == 1
+                if coloring(neighbor) > 0
+                    available_colors(coloring(neighbor)) = 1;
+                end
+            end
+        end
+        for color = 1:num_vertices
+            if available_colors(color) == 0
+                coloring(vertex) = color;
+                num_colors = max(num_colors, color);
+                break;
+            end
+        end
+    end
+    chromatic_number = num_colors;
+end
+//% Define the adjacency matrix representing common students
+adjacency_matrix = [
+    0 1 1 1;
+    1 0 1 0;
+    1 1 0 1;
+    1 0 1 0
+];
+chromatic_number = graph_coloring(adjacency_matrix);
+disp('Minimum number of time slots required: ')
+disp(chromatic_number)
+
+
+ASSIGNMENT 5
+Q.1. Pair of citis
+function tour = tsp_nearest_neighbor(cities, dist)
+n = size(cities, 1);
+tour = zeros(n, 1);
+visited = zeros(n, 1);
+Inf=200;
+current_city = 1;
+tour(1) = current_city;
+visited(current_city) = 1;
+for i = 2:n
+min_dist = Inf;
+next_city = -1;
+for j = 1:n
+if (j ~= current_city && visited(j) == 0 && dist(current_city, j) < min_dist)
+min_dist = dist(current_city, j);
+next_city = j;
+end
+end
+current_city = next_city;
+tour(i) = current_city;
+visited(current_city) = 1;
+end
+tour = [tour; tour(1)]; 
+end
+cities = [1, 2; 3, 4; 5, 6; 7, 8]; 
+dist = [0, 2, 3, 4; 2, 0, 5, 6; 3, 5, 0, 7; 4, 6, 7, 0]; 
+tour = tsp_nearest_neighbor(cities, dist);
+disp(tour);
+
+Q.2. Binary string using Branch & Bound
+function generate_binary_strings(N)
+    binary_string = zeros(1, N); // Initialize binary string with zeros
+
+    // Function to recursively generate binary strings
+    function generate_binary_strings_util(index)
+        if index == N
+            disp(binary_string);
+            return;
+        end
+
+        binary_string(index + 1) = 0;
+        generate_binary_strings_util(index + 1);
+
+        binary_string(index + 1) = 1;
+        generate_binary_strings_util(index + 1);
+    end
+
+    generate_binary_strings_util(0);
+end
+
+// Example usage with N = 2
+generate_binary_strings(4);
+
